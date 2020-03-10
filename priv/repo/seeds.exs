@@ -12,14 +12,15 @@
 
 alias Rumbl.Repo
 
+alias Rumbl.Accounts
 alias Rumbl.Accounts.User
 
 users = [
-  %User{name: "Jose", username: "josevalim"},
-  %User{name: "Bruce", username: "redcapids"},
-  %User{name: "Chris", username: "chrismccord"}
+  %{name: "Jose", username: "josevalim", password: "temppass"},
+  %{name: "Bruce", username: "redcapids", password: "tempass"},
+  %{name: "Chris", username: "chrismccord", password: "tempass"}
 ]
 
 for user <- users do
-  Repo.insert!(user)
+  {:ok, %User{}} = Accounts.register_user(user)
 end
