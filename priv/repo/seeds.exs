@@ -9,3 +9,17 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Rumbl.Repo
+
+alias Rumbl.Accounts.User
+
+users = [
+  %User{name: "Jose", username: "josevalim"},
+  %User{name: "Bruce", username: "redcapids"},
+  %User{name: "Chris", username: "chrismccord"}
+]
+
+for user <- users do
+  Repo.insert!(user)
+end

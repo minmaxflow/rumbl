@@ -4,6 +4,7 @@
   <%= for user <- @users do %>
     <tr>
       <td><%= render "user.html", user: user %></td>
+      <%# user 或者 user.id 都可以 %>
       <td><%= link "View", to: Routes.user_path(@conn, :show, user)%></td>
     </tr>
   <% end %>
