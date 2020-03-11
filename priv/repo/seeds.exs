@@ -14,6 +14,9 @@ alias Rumbl.Repo
 
 alias Rumbl.Accounts
 alias Rumbl.Accounts.User
+alias Rumbl.Multimedia
+alias Rumbl.Multimedia.Video
+alias Rumbl.Multimedia.Category
 
 users = [
   %{name: "Jose", username: "josevalim", password: "temppass"},
@@ -21,6 +24,15 @@ users = [
   %{name: "Chris", username: "chrismccord", password: "tempass"}
 ]
 
+# 删除顺序需要考虑外键依赖
+Repo.delete_all(Video)
+Repo.delete_all(Category)
+Repo.delete_all(User)
+
 for user <- users do
   {:ok, %User{}} = Accounts.register_user(user)
+end
+
+for category <- ~w(Action Drama Romance Comedy Sci-fi) do
+  Multimedia.craete_category!(category)
 end
