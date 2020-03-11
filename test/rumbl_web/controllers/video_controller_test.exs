@@ -11,6 +11,7 @@ defmodule RumblWeb.VideoControllerTest do
   describe "with a logged-in user" do
     setup %{conn: conn, login_as: username} do
       user = user_fixture(username: username)
+      # bypass login, 参考 auth.ex 
       conn = assign(conn, :current_user, user)
 
       {:ok, conn: conn, user: user}
