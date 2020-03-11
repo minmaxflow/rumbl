@@ -59,6 +59,7 @@ defmodule RumblWeb.VideoController do
   end
 
   def delete(conn, %{"id" => id}, current_user) do
+    # 确保不能随便删除
     video = Multimedia.get_user_video!(current_user, id)
     {:ok, _video} = Multimedia.delete_video(video)
 
@@ -68,6 +69,6 @@ defmodule RumblWeb.VideoController do
   end
 
   defp load_categories(conn, _) do
-    assign(conn, :categories, Multimedia.list_alphabetical_categoreis())
+    assign(conn, :categories, Multimedia.list_alphabetical_categories())
   end
 end

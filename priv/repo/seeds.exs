@@ -34,5 +34,5 @@ for user <- users do
 end
 
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
-  Multimedia.craete_category!(category)
+  Multimedia.create_category!(category)
 end
