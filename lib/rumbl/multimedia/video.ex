@@ -4,10 +4,12 @@ defmodule Rumbl.Multimedia.Video do
 
   # 在代码内部使用单数
   # 在外部边界 table/url使用复数
+  @primary_key {:id, Rumbl.Multimedia.Permalink, autogenerate: true}
   schema "videos" do
     field :description, :string
     field :title, :string
     field :url, :string
+    field :slug, :string
 
     belongs_to :user, Rumbl.Accounts.User
     belongs_to :category, Rumbl.Multimedia.Category
@@ -20,13 +22,27 @@ defmodule Rumbl.Multimedia.Video do
   # user_id都是通过put_assoc这种方式类，所以没必要在cast里面标记 
   #   video |> Changeset.change() |> Changeset.put_assoc(​:user​, user)
   #   Changeset.put_change(​:user_id​, user.id) 
-  # 如果是手动放入attrs，则应该在cast里面进行标记
+  # 如果是手动放入attrs，则应该在cast里面进行标记, 比如category_id
   @doc false
   def changeset(video, attrs) do
     video
     |> cast(attrs, [:url, :title, :description, :category_id])
     |> validate_required([:url, :title, :description])
     |> assoc_constraint(:category)
+    |> slugify_title()
+  end
+
+  defp slugify_title(changeset) do
+    case fetch_change(changeset, :title) do
+      {:ok, new_title} -> put_change(changeset, :slug, slugify(new_title))
+      :error -> changeset
+    end
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
   end
 end
 
