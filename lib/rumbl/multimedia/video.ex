@@ -2,9 +2,13 @@ defmodule Rumbl.Multimedia.Video do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias Rumbl.Multimedia.Category
+  alias Rumbl.Multimedia.Annotation
+  alias Rumbl.Multimedia.Permalink
+
   # 在代码内部使用单数
   # 在外部边界 table/url使用复数
-  @primary_key {:id, Rumbl.Multimedia.Permalink, autogenerate: true}
+  @primary_key {:id, Permalink, autogenerate: true}
   schema "videos" do
     field :description, :string
     field :title, :string
@@ -12,7 +16,9 @@ defmodule Rumbl.Multimedia.Video do
     field :slug, :string
 
     belongs_to :user, Rumbl.Accounts.User
-    belongs_to :category, Rumbl.Multimedia.Category
+    belongs_to :category, Category
+
+    has_many :annotations, Annotation
 
     timestamps()
   end
