@@ -6,5 +6,13 @@
 # We make no guarantees that this code is fit for any purpose.
 # Visit http://www.pragmaticprogrammer.com/titles/phoenix14 for more book information.
 #---
-Code.require_file "../../info_sys/test/backends/http_client.exs", __DIR__
-ExUnit.start()
+defmodule InfoSys.Test.HTTPClient do
+  @wolfram_xml File.read!("test/fixtures/wolfram.xml")
+  def request(url) do
+    url = to_string(url)
+    cond do
+      String.contains?(url, "1+%2B+1") -> {:ok, {[], [], @wolfram_xml}}
+      true -> {:ok, {[], [], "<queryresult></queryresult>"}}
+    end
+  end
+end
