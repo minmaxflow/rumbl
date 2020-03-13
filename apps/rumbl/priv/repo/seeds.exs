@@ -15,7 +15,6 @@ alias Rumbl.Repo
 alias Rumbl.Accounts
 alias Rumbl.Accounts.User
 alias Rumbl.Multimedia
-alias Rumbl.Multimedia.Video
 alias Rumbl.Multimedia.Category
 
 users = [
@@ -24,15 +23,14 @@ users = [
   %{name: "Chris", username: "chrismccord", password: "tempass"}
 ]
 
-# 删除顺序需要考虑外键依赖
-Repo.delete_all(Video)
-Repo.delete_all(Category)
-Repo.delete_all(User)
-
+# 按照道理应该先清除掉 用户再创建
+# 但是由于在开发的时候外键约束没有设置好，导致需要先产出分类和视频，暂时先不动
 for user <- users do
-  {:ok, %User{}} = Accounts.register_user(user)
+  Accounts.register_user(user)
 end
 
 for category <- ~w(Action Drama Romance Comedy Sci-fi) do
   Multimedia.create_category!(category)
 end
+
+{:ok, _} = Rumbl.Accounts.create_user(%{name: "Wolfram", username: "wolfram"})

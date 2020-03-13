@@ -74,3 +74,9 @@ config :phoenix, :plug_init_mode, :runtime
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+
+# export WOLFRAM_APP_ID=8P6W9L-U23435A827
+wolfram_app_id =
+  System.get_env("WOLFRAM_APP_ID") || raise "enviroment varialbe WOLFRAM_APP_ID is missing"
+
+config :info_sys, :wolfram, app_id: wolfram_app_id
